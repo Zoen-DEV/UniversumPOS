@@ -1,3 +1,4 @@
+import { Dispatch, SetStateAction } from "react";
 import {
   Image,
   Text,
@@ -7,7 +8,15 @@ import {
   StyleSheet,
 } from "react-native";
 
-export default function MainViewCards() {
+interface Props {
+  showUpdateModal: boolean;
+  setShowUpdateModal: Dispatch<SetStateAction<boolean>>;
+}
+
+export default function MainViewCards({
+  showUpdateModal,
+  setShowUpdateModal,
+}: Props) {
   const { width } = useWindowDimensions();
 
   return (
@@ -15,8 +24,10 @@ export default function MainViewCards() {
       style={width > 768 ? styles.cardContainer : styles.cardContainerSmall}
     >
       <TouchableOpacity
-        style={styles.card}
-        onPress={() => console.log("navigate to clock-in or clock-out time")}
+        style={
+          showUpdateModal ? { ...styles.card, ...styles.cardBlur } : styles.card
+        }
+        onPress={() => setShowUpdateModal(true)}
       >
         <Image
           source={require("../../assets/images/skater.png")}
@@ -34,7 +45,9 @@ export default function MainViewCards() {
       </TouchableOpacity>
 
       <TouchableOpacity
-        style={styles.card}
+        style={
+          showUpdateModal ? { ...styles.card, ...styles.cardBlur } : styles.card
+        }
         onPress={() => console.log("navigate to login")}
       >
         <Image
@@ -79,6 +92,11 @@ const styles = StyleSheet.create({
     minWidth: 170,
     gap: 20,
     overflow: "hidden",
+    borderWidth: 2,
+    borderColor: "#252057"
+  },
+  cardBlur: {
+    filter: "blur(50px)",
   },
   cardLongImage: {
     width: "100%",

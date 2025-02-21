@@ -1,13 +1,12 @@
-import {
-  StatusBar,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
+import { StatusBar, StyleSheet, Text, View } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import MainViewCards from "./components/auth/cards";
+import { useState } from "react";
+import NewVersionCard from "./components/auth/new_version";
 
 export default function HomeScreen() {
+  const [showUpdateModal, setShowUpdateModal] = useState<boolean>(false);
+  const [showUpdatingModal, setShowUpdatingModal] = useState<boolean>(false);
 
   return (
     <LinearGradient
@@ -27,7 +26,17 @@ export default function HomeScreen() {
       </View>
 
       {/* Tarjetas */}
-      <MainViewCards />
+      <MainViewCards
+        showUpdateModal={showUpdateModal}
+        setShowUpdateModal={setShowUpdateModal}
+      />
+
+      {showUpdateModal && (
+        <NewVersionCard
+          setShowUpdateModal={setShowUpdateModal}
+          setShowUpdatingModal={setShowUpdatingModal}
+        />
+      )}
 
       {/* Footer */}
       <Text style={styles.footer}>© Universum Restaurant</Text>
