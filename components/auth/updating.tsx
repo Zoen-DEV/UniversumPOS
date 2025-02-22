@@ -35,13 +35,6 @@ export default function UpdatingCard({ setShowUpdatingModal }: Props) {
 
   return (
     <View style={styles.cardContainer}>
-      <TouchableOpacity
-        onPress={() => setShowUpdatingModal(false)}
-        style={styles.closeButton}
-      >
-        <Image source={require("../../assets/icons/close_icon.svg")} />
-      </TouchableOpacity>
-
       <View style={styles.contentContainer}>
         <Image
           source={require("../../assets/images/update.png")}
@@ -80,11 +73,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderWidth: 2,
     borderColor: "#252057",
-  },
-  closeButton: {
-    alignSelf: "flex-end",
-    position: "absolute",
-    zIndex: 1,
   },
   contentContainer: {
     flexDirection: "column",

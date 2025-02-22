@@ -1,14 +1,7 @@
 import { StatusBar, StyleSheet, Text, View } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import MainViewCards from "../components/auth/cards";
-import { useState } from "react";
-import NewVersionCard from "../components/auth/new_version";
-import UpdatingCard from "../components/auth/updating";
 
 export default function DashboardScreen() {
-  const [showUpdateModal, setShowUpdateModal] = useState<boolean>(false);
-  const [showUpdatingModal, setShowUpdatingModal] = useState<boolean>(false);
-
   return (
     <LinearGradient
       colors={["#252057", "#0C0A26"]}
@@ -18,30 +11,12 @@ export default function DashboardScreen() {
     >
       {/* Header */}
       <View style={styles.header}>
-        <View style={styles.headerInfo}>
-          <Text style={styles.title}>Dashboard</Text>
-          <Text style={styles.subtitle}>Select an option to start</Text>
+        <Text style={styles.title}>Settings</Text>
+
+        <View>
+          <Text>dashboard</Text>
         </View>
-
-        <Text style={styles.headerBranch}>Universum POS</Text>
       </View>
-
-      {/* Tarjetas */}
-      <MainViewCards
-        isBlur={showUpdateModal || showUpdatingModal}
-        setShowUpdateModal={setShowUpdateModal}
-      />
-
-      {showUpdateModal && (
-        <NewVersionCard
-          setShowUpdateModal={setShowUpdateModal}
-          setShowUpdatingModal={setShowUpdatingModal}
-        />
-      )}
-
-      {showUpdatingModal && (
-        <UpdatingCard setShowUpdatingModal={setShowUpdatingModal} />
-      )}
 
       {/* Footer */}
       <Text style={styles.footer}>© Universum Restaurant</Text>
