@@ -1,19 +1,42 @@
-import { Dispatch, SetStateAction } from "react";
+import { useNavigation } from "@react-navigation/native";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { View, StyleSheet, Image, TouchableOpacity, Text } from "react-native";
+import * as Progress from "react-native-progress";
+import { RootStackParamList } from "../../utils/types/routes";
+import { StackNavigationProp } from "@react-navigation/stack";
+
+type NavigationProps = StackNavigationProp<RootStackParamList, "Dashboard">;
 
 interface Props {
-  setShowUpdateModal: Dispatch<SetStateAction<boolean>>;
   setShowUpdatingModal: Dispatch<SetStateAction<boolean>>;
 }
 
-export default function NewVersionCard({
-  setShowUpdateModal,
-  setShowUpdatingModal,
-}: Props) {
+export default function UpdatingCard({ setShowUpdatingModal }: Props) {
+  const [progress, setProgress] = useState(0);
+  const navigation = useNavigation<NavigationProps>();
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setProgress((oldProgress) => {
+        const newProgress = oldProgress + 0.1;
+        return newProgress > 1 ? 1 : newProgress;
+      });
+    }, 500);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    if (progress >= 1) {
+      setShowUpdatingModal(false);
+      navigation.navigate("Dashboard");
+    }
+  }, [progress]);
+
   return (
     <View style={styles.cardContainer}>
       <TouchableOpacity
-        onPress={() => setShowUpdateModal(false)}
+        onPress={() => setShowUpdatingModal(false)}
         style={styles.closeButton}
       >
         <Image source={require("../../assets/icons/close_icon.svg")} />
@@ -25,29 +48,20 @@ export default function NewVersionCard({
           style={styles.updateImage}
         />
 
-        <Text style={styles.contentTitle}>New version available!</Text>
+        <Text style={styles.contentTitle}>Updating</Text>
         <Text style={styles.contentText}>
-          A new version of UPOS Restaurant is available, update now!
+          Downloading the lastest UPOS Restaurant version. Wait a moment.
         </Text>
       </View>
 
-      <View style={styles.buttonsContainer}>
-        <TouchableOpacity
-          onPress={() => setShowUpdateModal(false)}
-          style={styles.button}
-        >
-          <Text style={styles.buttonText}>Remember later</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          onPress={() => {
-            setShowUpdateModal(false);
-            setShowUpdatingModal(true);
-          }}
-          style={styles.button}
-        >
-          <Text style={styles.buttonText}>Update now</Text>
-        </TouchableOpacity>
+      <View style={styles.loaderContainer}>
+        <Progress.Bar
+          progress={progress}
+          width={200}
+          height={42}
+          borderRadius={12}
+          color="#6A5AE0"
+        />
       </View>
     </View>
   );
@@ -100,13 +114,12 @@ const styles = StyleSheet.create({
     fontWeight: 400,
     lineHeight: 25,
   },
-  buttonsContainer: {
+  loaderContainer: {
     width: "100%",
     flexDirection: "row",
     justifyContent: "center",
     alignSelf: "center",
-    gap: 24,
-    marginBottom: 20,
+    marginBottom: 24,
   },
   button: {
     backgroundColor: "#0F69B3",

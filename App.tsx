@@ -1,90 +1,21 @@
-import { StatusBar, StyleSheet, Text, View } from "react-native";
-import { LinearGradient } from "expo-linear-gradient";
-import MainViewCards from "./components/auth/cards";
-import { useState } from "react";
-import NewVersionCard from "./components/auth/new_version";
+import { createStaticNavigation } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import HomeScreen from "./screens/home";
+import DashboardScreen from "./screens/dashboard";
 
-export default function HomeScreen() {
-  const [showUpdateModal, setShowUpdateModal] = useState<boolean>(false);
-  const [showUpdatingModal, setShowUpdatingModal] = useState<boolean>(false);
-
-  return (
-    <LinearGradient
-      colors={["#252057", "#0C0A26"]}
-      start={{ x: 0, y: 0 }}
-      end={{ x: 1, y: 1 }}
-      style={styles.container}
-    >
-      {/* Header */}
-      <View style={styles.header}>
-        <View style={styles.headerInfo}>
-          <Text style={styles.title}>Bistro Restaurant</Text>
-          <Text style={styles.subtitle}>Select an option to start</Text>
-        </View>
-
-        <Text style={styles.headerBranch}>Universum POS</Text>
-      </View>
-
-      {/* Tarjetas */}
-      <MainViewCards
-        showUpdateModal={showUpdateModal}
-        setShowUpdateModal={setShowUpdateModal}
-      />
-
-      {showUpdateModal && (
-        <NewVersionCard
-          setShowUpdateModal={setShowUpdateModal}
-          setShowUpdatingModal={setShowUpdatingModal}
-        />
-      )}
-
-      {/* Footer */}
-      <Text style={styles.footer}>© Universum Restaurant</Text>
-    </LinearGradient>
-  );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 20,
-    alignItems: "center",
-    justifyContent: "center",
-    gap: 20,
-    paddingTop: StatusBar.currentHeight,
+const RootStack = createNativeStackNavigator({
+  initialRouteName: "Home",
+  screens: {
+    Home: HomeScreen,
+    Dashboard: DashboardScreen,
   },
-  header: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: 20,
-    width: "100%",
-    borderColor: "red",
-    flexWrap: "wrap-reverse",
-    gap: 10,
-  },
-  headerInfo: {
-    flexDirection: "column",
-    gap: 18,
-  },
-  title: {
-    fontSize: 34,
-    fontWeight: 700,
-    color: "#fff",
-  },
-  subtitle: {
-    fontSize: 17,
-    color: "#808080",
-  },
-  headerBranch: {
-    fontSize: 20,
-    fontWeight: 500,
-    lineHeight: 25,
-    color: "#E8E8E8",
-    textAlign: "right",
-  },
-  footer: {
-    color: "#bbb",
-    width: "100%",
+  screenOptions: {
+    headerShown: false,
   },
 });
+
+const Navigation = createStaticNavigation(RootStack);
+
+export default function App() {
+  return <Navigation />;
+}
