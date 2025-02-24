@@ -26,18 +26,18 @@ export default function DashboardScreen() {
       <Navbar />
 
       <View style={styles.dashboardContainer}>
-        <View>
-          <Text>Settings</Text>
+        <View style={styles.dashboardHeader}>
+          <Text style={styles.dashboardTitle}>Settings</Text>
 
-          <View>
-            <TouchableOpacity>
-              <Text>Edit config</Text>
+          <View style={styles.headerHandlers}>
+            <TouchableOpacity style={styles.editButton}>
+              <Text style={styles.editButtonText}>Edit config</Text>
             </TouchableOpacity>
             <TextInput onChangeText={setSearchText} value={searchText} />
           </View>
         </View>
 
-        <View>
+        <View style={styles.tabsList}>
           {settingsNavList.map((i) => {
             const isSelected = i === settingsView;
 
@@ -47,7 +47,11 @@ export default function DashboardScreen() {
                 onPress={() => setSettingsView(i)}
                 style={isSelected ? styles.selectedTab : styles.settingsTab}
               >
-                <Text>{i}</Text>
+                <Text
+                  style={isSelected ? styles.selectedTabText : styles.tabText}
+                >
+                  {i}
+                </Text>
               </TouchableOpacity>
             );
           })}
@@ -73,9 +77,65 @@ const styles = StyleSheet.create({
     width: "80%",
     height: "100%",
     color: "#fff",
+    flexDirection: "column",
+    alignItems: "center",
+  },
+
+  // header
+  dashboardHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingVertical: 32,
+    width: "95%",
+  },
+  dashboardTitle: {
+    color: "#fff",
+    fontWeight: 700,
+    fontSize: 34,
+  },
+  headerHandlers: {
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    alignItems: "center",
+  },
+  editButton: {
+    flexDirection: "row",
+    gap: 15,
+    borderRadius: 12,
+    padding: 12,
+    backgroundColor: "#E94B24",
+  },
+  editButtonText: {
+    color: "#fff",
+    paddingHorizontal: 20,
   },
 
   // tabs
-  settingsTab: {},
-  selectedTab: {},
+  tabsList: {
+    // paddingHorizontal: 32,
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    borderBottomWidth: 1,
+    borderColor: "#3a3a3a",
+    width: "95%",
+  },
+  settingsTab: {
+    paddingHorizontal: 10,
+    paddingBottom: 8,
+  },
+  tabText: {
+    fontSize: 17,
+    color: "#fff",
+  },
+  selectedTab: {
+    paddingHorizontal: 10,
+    paddingBottom: 8,
+    borderBottomWidth: 2,
+    borderColor: "#E94B24",
+  },
+  selectedTabText: {
+    fontSize: 17,
+    color: "#E94B24",
+    fontWeight: 500,
+  },
 });
