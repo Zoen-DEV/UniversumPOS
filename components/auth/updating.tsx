@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { View, StyleSheet, Image, TouchableOpacity, Text } from "react-native";
+import { View, StyleSheet, Image, Text } from "react-native";
 import * as Progress from "react-native-progress";
 import { RootStackParamList } from "../../utils/types/routes";
 import { StackNavigationProp } from "@react-navigation/stack";

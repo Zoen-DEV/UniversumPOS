@@ -26,6 +26,14 @@
     },
     "updates": {
       "enabled": false
-    }
+    },
+    "plugins": [
+      [
+        "expo-secure-store",
+        {
+          "configureAndroidBackup": true
+        }
+      ]
+    ]
   }
 }

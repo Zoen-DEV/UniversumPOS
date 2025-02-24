@@ -16,7 +16,7 @@ export default function NewVersionCard({
         onPress={() => setShowUpdateModal(false)}
         style={styles.closeButton}
       >
-        <Image source={require("../../assets/icons/close_icon.svg")} />
+        <Image source={require("../../assets/icons/utils/close_icon.svg")} />
       </TouchableOpacity>
 
       <View style={styles.contentContainer}>

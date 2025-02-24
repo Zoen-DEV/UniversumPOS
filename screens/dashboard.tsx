@@ -1,7 +1,21 @@
-import { StatusBar, StyleSheet, Text, View } from "react-native";
+import {
+  StatusBar,
+  StyleSheet,
+  View,
+  Text,
+  TouchableOpacity,
+  TextInput,
+} from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
+import Navbar from "../components/dashboard/navbar";
+import { useState } from "react";
 
 export default function DashboardScreen() {
+  const [searchText, setSearchText] = useState<string>("");
+  const [settingsView, setSettingsView] = useState<string>("About");
+
+  const settingsNavList = ["Company", "App", "Taxes & tips", "About"];
+
   return (
     <LinearGradient
       colors={["#252057", "#0C0A26"]}
@@ -9,17 +23,36 @@ export default function DashboardScreen() {
       end={{ x: 1, y: 1 }}
       style={styles.container}
     >
-      {/* Header */}
-      <View style={styles.header}>
-        <Text style={styles.title}>Settings</Text>
+      <Navbar />
+
+      <View>
+        <View>
+          <Text>Settings</Text>
+
+          <View>
+            <TouchableOpacity>
+              <Text>Edit config</Text>
+            </TouchableOpacity>
+            <TextInput onChangeText={setSearchText} value={searchText} />
+          </View>
+        </View>
 
         <View>
-          <Text>dashboard</Text>
+          {settingsNavList.map((i) => {
+            const isSelected = i === settingsView;
+
+            return (
+              <TouchableOpacity
+                key={`settings: ${i}`}
+                onPress={() => setSettingsView(i)}
+                style={isSelected ? styles.selectedTab : styles.settingsTab}
+              >
+                <Text>{i}</Text>
+              </TouchableOpacity>
+            );
+          })}
         </View>
       </View>
-
-      {/* Footer */}
-      <Text style={styles.footer}>© Universum Restaurant</Text>
     </LinearGradient>
   );
 }
@@ -33,38 +66,8 @@ const styles = StyleSheet.create({
     gap: 20,
     paddingTop: StatusBar.currentHeight,
   },
-  header: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: 20,
-    width: "100%",
-    borderColor: "red",
-    flexWrap: "wrap-reverse",
-    gap: 10,
-  },
-  headerInfo: {
-    flexDirection: "column",
-    gap: 18,
-  },
-  title: {
-    fontSize: 34,
-    fontWeight: 700,
-    color: "#fff",
-  },
-  subtitle: {
-    fontSize: 17,
-    color: "#808080",
-  },
-  headerBranch: {
-    fontSize: 20,
-    fontWeight: 500,
-    lineHeight: 25,
-    color: "#E8E8E8",
-    textAlign: "right",
-  },
-  footer: {
-    color: "#bbb",
-    width: "100%",
-  },
+
+  // tabs
+  settingsTab: {},
+  selectedTab: {},
 });
