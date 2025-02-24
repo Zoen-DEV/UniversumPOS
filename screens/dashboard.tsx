@@ -25,7 +25,7 @@ export default function DashboardScreen() {
     >
       <Navbar />
 
-      <View>
+      <View style={styles.dashboardContainer}>
         <View>
           <Text>Settings</Text>
 
@@ -60,11 +60,19 @@ export default function DashboardScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
+    padding: 0,
     alignItems: "center",
     justifyContent: "center",
-    gap: 20,
+    gap: 0,
     paddingTop: StatusBar.currentHeight,
+    flexDirection: "row",
+  },
+
+  // dashboard
+  dashboardContainer: {
+    width: "80%",
+    height: "100%",
+    color: "#fff",
   },
 
   // tabs

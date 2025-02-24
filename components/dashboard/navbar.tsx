@@ -61,9 +61,13 @@ export default function Navbar() {
             <TouchableOpacity
               key={`Navbar links: ${i.path}`}
               onPress={() => console.log(`Navigate to: ${i.path}`)}
-              style={styles.navbarLink}
+              style={
+                i.path === "Home"
+                  ? { ...styles.navbarLink, ...styles.linkSelected }
+                  : styles.navbarLink
+              }
             >
-              <Image source={i.icon} style={styles.navbarLinkImage} />
+              <Image source={i.icon} />
               <Text style={styles.navbarLinkText}>{i.label}</Text>
             </TouchableOpacity>
           );
@@ -79,9 +83,9 @@ export default function Navbar() {
         </TouchableOpacity>
 
         <View style={styles.userInfoContent}>
-          <Text style={styles.userInfoName}>{userData.name}</Text>
-          <Text> • </Text>
-          <Text style={styles.userInfoRole}>{userData.role} UI</Text>
+          <Text style={styles.userInfoText}>{userData.name}</Text>
+          <Text style={styles.userInfoText}> • </Text>
+          <Text style={styles.userInfoText}>{userData.role} UI</Text>
         </View>
 
         <View style={styles.userInfoTimeContainer}>
@@ -92,34 +96,106 @@ export default function Navbar() {
 
       <View style={styles.navbarFooter}>
         <TouchableOpacity onPress={handleLogOut} style={styles.logoutBtn}>
-          Log out
+          <Text style={styles.logoutText}>Log out</Text>
         </TouchableOpacity>
-        <Text style={styles.navbarFooterText}>© Universum Restaurant</Text>
       </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  navbarContainer: {},
+  navbarContainer: {
+    height: "100%",
+    width: "20%",
+    borderRightWidth: 1,
+    borderColor: "#3a3a3a",
+    flexDirection: "column",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
 
   // navbar list
-  navbarList: {},
-  navbarLink: {},
-  navbarLinkImage: {},
-  navbarLinkText: {},
+  navbarList: {
+    padding: 20,
+    flexDirection: "column",
+    gap: 10,
+    marginTop: 24,
+    width: "100%",
+  },
+  navbarLink: {
+    flexDirection: "row",
+    gap: 15,
+    borderRadius: 12,
+    padding: 12,
+  },
+  linkSelected: {
+    backgroundColor: "#E94B24",
+  },
+  navbarLinkText: {
+    color: "#fff",
+    fontSize: 16,
+    lineHeight: 20,
+  },
 
   // user info
-  userInfoContainer: {},
-  userSwitchBtn: {},
-  userInfoContent: {},
-  userInfoName: {},
-  userInfoRole: {},
-  userInfoTimeContainer: {},
-  userInfoTime: {},
+  userInfoContainer: {
+    padding: 20,
+    flexDirection: "column",
+    gap: 15,
+    width: "100%",
+  },
+  userSwitchBtn: {
+    backgroundColor: "#0F69B3",
+    width: 42,
+    height: 42,
+    borderRadius: 12,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  userInfoContent: {
+    flexDirection: "row",
+  },
+  userInfoText: {
+    color: "#fff",
+    fontSize: 12,
+    fontWeight: 500,
+    letterSpacing: 1,
+  },
+  userInfoTimeContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 8,
+    backgroundColor: "#E94B24",
+    width: 84,
+    borderRadius: 50,
+    padding: 6,
+  },
+  userInfoTime: {
+    color: "#fff",
+    fontSize: 12,
+  },
 
   // navbar footer
-  navbarFooter: {},
-  logoutBtn: {},
-  navbarFooterText: {},
+  navbarFooter: {
+    width: "100%",
+    padding: 24,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  logoutBtn: {
+    backgroundColor: "#0F69B3",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 12,
+    borderRadius: 12,
+    width: "90%",
+  },
+  logoutText: {
+    color: "#fff",
+    letterSpacing: 1,
+  },
 });
