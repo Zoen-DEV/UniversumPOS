@@ -13,7 +13,7 @@ import { useState } from "react";
 import UpdatingCard from "../components/auth/updating";
 import SearchInput from "../components/elements/search_input";
 
-export default function HomeScreen() {
+export default function UsersScreen() {
   const { width } = useWindowDimensions();
 
   const [showNavbar, setShowNavbar] = useState<boolean>(width >= 768);
@@ -46,7 +46,7 @@ export default function HomeScreen() {
             width >= 768 ? styles.dashboardHeader : styles.dashboardSmallHeader
           }
         >
-          <Text style={styles.dashboardTitle}>Home</Text>
+          <Text style={styles.dashboardTitle}>Employees</Text>
 
           {width < 768 && !showNavbar && (
             <TouchableOpacity

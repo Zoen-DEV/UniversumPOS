@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     gap: 20,
-    paddingTop: StatusBar.currentHeight,
+    marginTop: StatusBar.currentHeight,
   },
   header: {
     flexDirection: "row",

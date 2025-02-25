@@ -8,6 +8,9 @@ import {
 } from "react-native";
 import { useAuth } from "../../context/auth_context";
 import { Dispatch, SetStateAction } from "react";
+import { useNavigation, useRoute } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { RootStackParamList } from "../../utils/types/routes";
 const homeIcon = require("../../assets/icons/navbar/home.png");
 const tableIcon = require("../../assets/icons/navbar/table.png");
 const menuIcon = require("../../assets/icons/navbar/menu.png");
@@ -15,13 +18,20 @@ const userIcon = require("../../assets/icons/navbar/user.png");
 const reportIcon = require("../../assets/icons/navbar/report.png");
 const settingsIcon = require("../../assets/icons/navbar/settings.png");
 
+type NavigationProps = StackNavigationProp<
+  RootStackParamList,
+  "Home" | "Table" | "Menu" | "Users" | "Settings" | "Reports"
+>;
+
 interface Props {
-  setShowNavbar: Dispatch<SetStateAction<boolean>>
+  setShowNavbar: Dispatch<SetStateAction<boolean>>;
 }
 
-export default function Navbar({setShowNavbar}: Props) {
+export default function Navbar({ setShowNavbar }: Props) {
   const { width } = useWindowDimensions();
   const auth = useAuth();
+  const navigation = useNavigation<NavigationProps>();
+  const route = useRoute();
 
   const navList = [
     {
@@ -42,7 +52,7 @@ export default function Navbar({setShowNavbar}: Props) {
     {
       label: "Employees",
       icon: userIcon,
-      path: "Employees",
+      path: "Users",
     },
     {
       label: "Reports",
@@ -77,9 +87,11 @@ export default function Navbar({setShowNavbar}: Props) {
           return (
             <TouchableOpacity
               key={`Navbar links: ${i.path}`}
-              onPress={() => console.log(`Navigate to: ${i.path}`)}
+              onPress={() =>
+                navigation.navigate(i.path as keyof RootStackParamList)
+              }
               style={
-                i.path === "Home"
+                i.path === route.name
                   ? { ...styles.navbarLink, ...styles.linkSelected }
                   : styles.navbarLink
               }
@@ -185,7 +197,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     backgroundColor: "#0C0A27",
     position: "relative",
-    left: 40
+    left: 40,
   },
 
   // user info
