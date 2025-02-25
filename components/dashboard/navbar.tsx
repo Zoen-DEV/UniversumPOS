@@ -1,13 +1,26 @@
-import { View, Text, TouchableOpacity, Image, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Image,
+  StyleSheet,
+  useWindowDimensions,
+} from "react-native";
 import { useAuth } from "../../context/auth_context";
-const homeIcon = require("../../assets/icons/navbar/home.svg");
-const tableIcon = require("../../assets/icons/navbar/table.svg");
-const menuIcon = require("../../assets/icons/navbar/menu.svg");
-const userIcon = require("../../assets/icons/navbar/user.svg");
-const reportIcon = require("../../assets/icons/navbar/report.svg");
-const settingsIcon = require("../../assets/icons/navbar/settings.svg");
+import { Dispatch, SetStateAction } from "react";
+const homeIcon = require("../../assets/icons/navbar/home.png");
+const tableIcon = require("../../assets/icons/navbar/table.png");
+const menuIcon = require("../../assets/icons/navbar/menu.png");
+const userIcon = require("../../assets/icons/navbar/user.png");
+const reportIcon = require("../../assets/icons/navbar/report.png");
+const settingsIcon = require("../../assets/icons/navbar/settings.png");
 
-export default function Navbar() {
+interface Props {
+  setShowNavbar: Dispatch<SetStateAction<boolean>>
+}
+
+export default function Navbar({setShowNavbar}: Props) {
+  const { width } = useWindowDimensions();
   const auth = useAuth();
 
   const navList = [
@@ -54,7 +67,11 @@ export default function Navbar() {
   };
 
   return (
-    <View style={styles.navbarContainer}>
+    <View
+      style={
+        width >= 768 ? styles.navbarContainer : styles.navbarSmallContainer
+      }
+    >
       <View style={styles.navbarList}>
         {navList.map((i) => {
           return (
@@ -74,12 +91,19 @@ export default function Navbar() {
         })}
       </View>
 
+      <TouchableOpacity
+        onPress={() => setShowNavbar(false)}
+        style={styles.closeNavbarBtn}
+      >
+        <Image source={require("../../assets/icons/navbar/close.png")} />
+      </TouchableOpacity>
+
       <View style={styles.userInfoContainer}>
         <TouchableOpacity
           onPress={() => console.log("switch")}
           style={styles.userSwitchBtn}
         >
-          <Image source={require("../../assets/icons/utils/switch.svg")} />
+          <Image source={require("../../assets/icons/utils/switch.png")} />
         </TouchableOpacity>
 
         <View style={styles.userInfoContent}>
@@ -89,7 +113,7 @@ export default function Navbar() {
         </View>
 
         <View style={styles.userInfoTimeContainer}>
-          <Image source={require("../../assets/icons/utils/clock.svg")} />
+          <Image source={require("../../assets/icons/utils/clock.png")} />
           <Text style={styles.userInfoTime}>{userData.time}</Text>
         </View>
       </View>
@@ -113,6 +137,18 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
   },
+  navbarSmallContainer: {
+    flex: 1,
+    height: "100%",
+    width: "80%",
+    flexDirection: "column",
+    justifyContent: "space-between",
+    alignItems: "center",
+    backgroundColor: "#0C0A26",
+    position: "absolute",
+    zIndex: 1000,
+    left: 0,
+  },
 
   // navbar list
   navbarList: {
@@ -135,6 +171,21 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 16,
     lineHeight: 20,
+  },
+
+  // close navbar btn
+  closeNavbarBtn: {
+    alignSelf: "flex-end",
+    marginRight: 20,
+    borderWidth: 1,
+    borderColor: "#0F69B3",
+    paddingLeft: 32,
+    paddingRight: 10,
+    paddingVertical: 10,
+    borderRadius: 12,
+    backgroundColor: "#0C0A27",
+    position: "relative",
+    left: 40
   },
 
   // user info

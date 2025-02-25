@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "space-between",
     gap: 20,
     paddingTop: StatusBar.currentHeight,
   },

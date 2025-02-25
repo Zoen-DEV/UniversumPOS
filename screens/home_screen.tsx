@@ -4,6 +4,8 @@ import {
   View,
   Text,
   TouchableOpacity,
+  useWindowDimensions,
+  Image,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import Navbar from "../components/dashboard/navbar";
@@ -12,6 +14,9 @@ import UpdatingCard from "../components/auth/updating";
 import SearchInput from "../components/elements/search_input";
 
 export default function HomeScreen() {
+  const { width } = useWindowDimensions();
+
+  const [showNavbar, setShowNavbar] = useState<boolean>(width >= 768);
   const [settingsView, setSettingsView] = useState<string>("About");
   const [update, setUpdate] = useState<boolean>(false);
 
@@ -24,14 +29,49 @@ export default function HomeScreen() {
       end={{ x: 1, y: 0 }}
       style={styles.container}
     >
-      <Navbar />
+      {showNavbar && <Navbar setShowNavbar={setShowNavbar} />}
 
-      <View style={styles.dashboardContainer}>
-        <View style={styles.dashboardHeader}>
+      <View
+        style={
+          width >= 768
+            ? { ...styles.dashboardContainer, ...styles.dashboardLongContainer }
+            : {
+                ...styles.dashboardContainer,
+                ...styles.dashboardSmallContainer,
+              }
+        }
+      >
+        <View
+          style={
+            width >= 768 ? styles.dashboardHeader : styles.dashboardSmallHeader
+          }
+        >
           <Text style={styles.dashboardTitle}>Settings</Text>
 
-          <View style={styles.headerHandlers}>
-            <TouchableOpacity style={styles.editButton}>
+          {width < 768 && !showNavbar && (
+            <TouchableOpacity
+              onPress={() => setShowNavbar(true)}
+              style={styles.menuBtn}
+            >
+              <Image
+                source={require("../assets/icons/navbar/close.png")}
+                style={styles.menuBtnIcon}
+              />
+            </TouchableOpacity>
+          )}
+
+          <View
+            style={
+              width >= 768 ? styles.headerHandlers : styles.headerSmallHandlers
+            }
+          >
+            <TouchableOpacity
+              style={
+                width >= 768
+                  ? styles.editButton
+                  : { ...styles.editButton, ...styles.editSmallButton }
+              }
+            >
               <Text style={styles.editButtonText}>Edit config</Text>
             </TouchableOpacity>
 
@@ -101,7 +141,11 @@ export default function HomeScreen() {
                 </Text>
                 <TouchableOpacity
                   onPress={() => setUpdate(true)}
-                  style={styles.updateBtn}
+                  style={
+                    width >= 768
+                      ? { ...styles.updateBtn, ...styles.updateLongBtn }
+                      : { ...styles.updateBtn, ...styles.updateSmallBtn }
+                  }
                 >
                   <Text style={styles.updateBtnText}>Update now</Text>
                 </TouchableOpacity>
@@ -125,17 +169,22 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     gap: 0,
-    paddingTop: StatusBar.currentHeight,
+    marginTop: StatusBar.currentHeight,
     flexDirection: "row",
   },
 
   // dashboard
   dashboardContainer: {
-    width: "80%",
     height: "100%",
     color: "#fff",
     flexDirection: "column",
     alignItems: "center",
+  },
+  dashboardLongContainer: {
+    width: "80%",
+  },
+  dashboardSmallContainer: {
+    width: "100%",
   },
 
   // header
@@ -145,10 +194,31 @@ const styles = StyleSheet.create({
     paddingVertical: 32,
     width: "95%",
   },
+  dashboardSmallHeader: {
+    flexDirection: "column",
+    width: "95%",
+    paddingVertical: 32,
+  },
   dashboardTitle: {
     color: "#fff",
     fontWeight: 700,
     fontSize: 34,
+  },
+  menuBtn: {
+    position: "absolute",
+    top: 38,
+    alignSelf: "flex-end",
+    marginRight: 20,
+    borderWidth: 1,
+    borderColor: "#0F69B3",
+    paddingLeft: 32,
+    paddingRight: 10,
+    paddingVertical: 10,
+    borderRadius: 12,
+    backgroundColor: "rgba(12, 10, 39, 0.7)"
+  },
+  menuBtnIcon: {
+    transform: "rotate(180deg)"
   },
   headerHandlers: {
     flexDirection: "row",
@@ -156,12 +226,20 @@ const styles = StyleSheet.create({
     alignItems: "center",
     gap: 20,
   },
+  headerSmallHandlers: {
+    marginTop: 24,
+    gap: 16,
+  },
   editButton: {
     flexDirection: "row",
     gap: 15,
     borderRadius: 12,
     padding: 10,
     backgroundColor: "#E94B24",
+  },
+  editSmallButton: {
+    justifyContent: "center",
+    maxWidth: "40%",
   },
   editButtonText: {
     color: "#fff",
@@ -171,7 +249,6 @@ const styles = StyleSheet.create({
 
   // tabs
   tabsList: {
-    // paddingHorizontal: 32,
     flexDirection: "row",
     justifyContent: "flex-start",
     borderBottomWidth: 1,
@@ -256,10 +333,15 @@ const styles = StyleSheet.create({
     padding: 12,
     borderRadius: 12,
     marginTop: 20,
-    maxWidth: "30%",
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
+  },
+  updateLongBtn: {
+    width: "30%",
+  },
+  updateSmallBtn: {
+    width: "80%",
   },
   updateBtnText: {
     color: "#fff",

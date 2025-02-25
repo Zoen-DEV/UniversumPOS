@@ -1,5 +1,12 @@
 import { Dispatch, SetStateAction } from "react";
-import { View, StyleSheet, Image, TouchableOpacity, Text } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+  Text,
+  useWindowDimensions,
+} from "react-native";
 
 interface Props {
   setShowUpdateModal: Dispatch<SetStateAction<boolean>>;
@@ -10,13 +17,21 @@ export default function NewVersionCard({
   setShowUpdateModal,
   setShowUpdatingModal,
 }: Props) {
+  const { width } = useWindowDimensions();
+
   return (
-    <View style={styles.cardContainer}>
+    <View
+      style={
+        width >= 768
+          ? styles.cardContainer
+          : { ...styles.cardContainer, ...styles.cardSmallContainer }
+      }
+    >
       <TouchableOpacity
         onPress={() => setShowUpdateModal(false)}
         style={styles.closeButton}
       >
-        <Image source={require("../../assets/icons/utils/close_icon.svg")} />
+        <Image source={require("../../assets/icons/utils/close.png")} />
       </TouchableOpacity>
 
       <View style={styles.contentContainer}>
@@ -56,6 +71,8 @@ export default function NewVersionCard({
 const styles = StyleSheet.create({
   cardContainer: {
     position: "absolute",
+    top: "50%",
+    transform: "translate(0, -50%)",
     flexDirection: "column",
     height: "60%",
     width: "60%",
@@ -66,6 +83,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderWidth: 2,
     borderColor: "#252057",
+  },
+  cardSmallContainer: {
+    width: "90%",
+    height: "70%",
   },
   closeButton: {
     alignSelf: "flex-end",

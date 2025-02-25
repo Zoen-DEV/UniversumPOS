@@ -1,4 +1,11 @@
-import { createContext, useContext, useState } from "react";
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
+import * as SecureStore from "expo-secure-store";
 
 interface AuthContextType {
   user: string | null;
@@ -8,11 +15,27 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
+export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<string | null>(null);
 
-  const login = (userData: string) => setUser(userData);
-  const logout = () => setUser(null);
+  useEffect(() => {
+    // Cargar usuario almacenado al iniciar la app
+    const loadUser = async () => {
+      const storedUser = await SecureStore.getItemAsync("user");
+      if (storedUser) setUser(storedUser);
+    };
+    loadUser();
+  }, []);
+
+  const login = async (userData: string) => {
+    await SecureStore.setItemAsync("user", userData);
+    setUser(userData);
+  };
+
+  const logout = async () => {
+    await SecureStore.deleteItemAsync("user");
+    setUser(null);
+  };
 
   return (
     <AuthContext.Provider value={{ user, login, logout }}>

@@ -1,5 +1,11 @@
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { View, StyleSheet, Image, Text } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Image,
+  Text,
+  useWindowDimensions,
+} from "react-native";
 import * as Progress from "react-native-progress";
 import { useAuth } from "../../context/auth_context";
 
@@ -12,8 +18,16 @@ export default function UpdatingCard({
   setShowUpdatingModal,
   isDashboard,
 }: Props) {
+  const { width } = useWindowDimensions();
+
   const auth = useAuth();
   const [progress, setProgress] = useState(0);
+
+  const getModalBackground = () => {
+    return isDashboard
+      ? { ...styles.cardContainer, ...styles.cardDashboardBackground }
+      : { ...styles.cardContainer, ...styles.cardAuthBackground };
+  };
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -29,16 +43,16 @@ export default function UpdatingCard({
   useEffect(() => {
     if (progress >= 1) {
       setShowUpdatingModal(false);
-      auth.login("user_token")
+      auth.login("user_token");
     }
   }, [progress]);
 
   return (
     <View
       style={
-        isDashboard
-          ? { ...styles.cardContainer, ...styles.cardDashboardBackground }
-          : { ...styles.cardContainer, ...styles.cardAuthBackground }
+        width >= 768
+          ? getModalBackground()
+          : { ...getModalBackground(), ...styles.cardSmallContainer }
       }
     >
       <View style={styles.contentContainer}>
@@ -69,6 +83,8 @@ export default function UpdatingCard({
 const styles = StyleSheet.create({
   cardContainer: {
     position: "absolute",
+    top: "50%",
+    transform: "translate(0, -50%)",
     flexDirection: "column",
     height: "60%",
     width: "60%",
@@ -78,6 +94,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderWidth: 2,
     borderColor: "#252057",
+  },
+  cardSmallContainer: {
+    width: "90%",
+    height: "70%",
   },
   cardAuthBackground: {
     backgroundColor: "rgba(37, 32, 87, 0.50)",
