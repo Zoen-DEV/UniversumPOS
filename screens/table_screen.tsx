@@ -19,6 +19,7 @@ export default function TableScreen() {
   const [showNavbar, setShowNavbar] = useState<boolean>(width >= 768);
   const [settingsView, setSettingsView] = useState<string>("About");
   const [update, setUpdate] = useState<boolean>(false);
+  const [showFullNavbar, setShowFullNavbar] = useState<boolean>(true);
 
   const settingsNavList = ["Company", "App", "Taxes & tips", "About"];
 
@@ -29,7 +30,13 @@ export default function TableScreen() {
       end={{ x: 1, y: 0 }}
       style={styles.container}
     >
-      {showNavbar && <Navbar setShowNavbar={setShowNavbar} />}
+      {showNavbar && (
+        <Navbar
+          setShowNavbar={setShowNavbar}
+          showFullNavbar={showFullNavbar}
+          setShowFullNavbar={setShowFullNavbar}
+        />
+      )}
 
       <View
         style={
@@ -215,10 +222,10 @@ const styles = StyleSheet.create({
     paddingRight: 10,
     paddingVertical: 10,
     borderRadius: 12,
-    backgroundColor: "rgba(12, 10, 39, 0.7)"
+    backgroundColor: "rgba(12, 10, 39, 0.7)",
   },
   menuBtnIcon: {
-    transform: "rotate(180deg)"
+    transform: "rotate(180deg)",
   },
   headerHandlers: {
     flexDirection: "row",

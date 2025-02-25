@@ -7,7 +7,7 @@ import {
   useWindowDimensions,
 } from "react-native";
 import { useAuth } from "../../context/auth_context";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RootStackParamList } from "../../utils/types/routes";
@@ -25,9 +25,15 @@ type NavigationProps = StackNavigationProp<
 
 interface Props {
   setShowNavbar: Dispatch<SetStateAction<boolean>>;
+  showFullNavbar: boolean;
+  setShowFullNavbar: Dispatch<SetStateAction<boolean>>;
 }
 
-export default function Navbar({ setShowNavbar }: Props) {
+export default function Navbar({
+  setShowNavbar,
+  setShowFullNavbar,
+  showFullNavbar,
+}: Props) {
   const { width } = useWindowDimensions();
   const auth = useAuth();
   const navigation = useNavigation<NavigationProps>();
@@ -79,7 +85,11 @@ export default function Navbar({ setShowNavbar }: Props) {
   return (
     <View
       style={
-        width >= 768 ? styles.navbarContainer : styles.navbarSmallContainer
+        !showFullNavbar
+          ? styles.navbarReduced
+          : width >= 768
+          ? styles.navbarContainer
+          : styles.navbarSmallContainer
       }
     >
       <View style={styles.navbarList}>
@@ -97,14 +107,20 @@ export default function Navbar({ setShowNavbar }: Props) {
               }
             >
               <Image source={i.icon} />
-              <Text style={styles.navbarLinkText}>{i.label}</Text>
+              {showFullNavbar && (
+                <Text style={styles.navbarLinkText}>{i.label}</Text>
+              )}
             </TouchableOpacity>
           );
         })}
       </View>
 
       <TouchableOpacity
-        onPress={() => setShowNavbar(false)}
+        onPress={() =>
+          width < 768
+            ? setShowNavbar(false)
+            : setShowFullNavbar(!showFullNavbar)
+        }
         style={styles.closeNavbarBtn}
       >
         <Image source={require("../../assets/icons/navbar/close.png")} />
@@ -160,6 +176,15 @@ const styles = StyleSheet.create({
     position: "absolute",
     zIndex: 1000,
     left: 0,
+  },
+  navbarReduced: {
+    height: "100%",
+    width: "10%",
+    borderRightWidth: 1,
+    borderColor: "#3a3a3a",
+    flexDirection: "column",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
 
   // navbar list
