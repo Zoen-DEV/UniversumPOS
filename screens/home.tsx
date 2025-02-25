@@ -11,9 +11,9 @@ export default function HomeScreen() {
 
   return (
     <LinearGradient
-      colors={["#252057", "#0C0A26"]}
+      colors={["#0C0A26", "#252057"]}
       start={{ x: 0, y: 0 }}
-      end={{ x: 1, y: 1 }}
+      end={{ x: 1, y: 0 }}
       style={styles.container}
     >
       {/* Header */}
@@ -40,7 +40,7 @@ export default function HomeScreen() {
       )}
 
       {showUpdatingModal && (
-        <UpdatingCard setShowUpdatingModal={setShowUpdatingModal} />
+        <UpdatingCard setShowUpdatingModal={setShowUpdatingModal} isDashboard={false} />
       )}
 
       {/* Footer */}

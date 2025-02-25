@@ -9,9 +9,13 @@ type NavigationProps = StackNavigationProp<RootStackParamList, "Dashboard">;
 
 interface Props {
   setShowUpdatingModal: Dispatch<SetStateAction<boolean>>;
+  isDashboard: boolean;
 }
 
-export default function UpdatingCard({ setShowUpdatingModal }: Props) {
+export default function UpdatingCard({
+  setShowUpdatingModal,
+  isDashboard,
+}: Props) {
   const [progress, setProgress] = useState(0);
   const navigation = useNavigation<NavigationProps>();
 
@@ -34,7 +38,13 @@ export default function UpdatingCard({ setShowUpdatingModal }: Props) {
   }, [progress]);
 
   return (
-    <View style={styles.cardContainer}>
+    <View
+      style={
+        isDashboard
+          ? { ...styles.cardContainer, ...styles.cardDashboardBackground }
+          : { ...styles.cardContainer, ...styles.cardAuthBackground }
+      }
+    >
       <View style={styles.contentContainer}>
         <Image
           source={require("../../assets/images/update.png")}
@@ -66,13 +76,18 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     height: "60%",
     width: "60%",
-    backgroundColor: "rgba(37, 32, 87, 0.50)",
     borderRadius: 18,
     padding: 20,
     justifyContent: "space-between",
     alignItems: "center",
     borderWidth: 2,
     borderColor: "#252057",
+  },
+  cardAuthBackground: {
+    backgroundColor: "rgba(37, 32, 87, 0.50)",
+  },
+  cardDashboardBackground: {
+    backgroundColor: "rgba(37, 32, 87, 1)",
   },
   contentContainer: {
     flexDirection: "column",
