@@ -4,7 +4,6 @@ import {
   View,
   Text,
   TouchableOpacity,
-  TextInput,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import Navbar from "../components/dashboard/navbar";
@@ -12,7 +11,7 @@ import { useState } from "react";
 import UpdatingCard from "../components/auth/updating";
 import SearchInput from "../components/elements/search_input";
 
-export default function DashboardScreen() {
+export default function HomeScreen() {
   const [settingsView, setSettingsView] = useState<string>("About");
   const [update, setUpdate] = useState<boolean>(false);
 

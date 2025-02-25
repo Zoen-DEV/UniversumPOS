@@ -5,7 +5,7 @@ import { useState } from "react";
 import NewVersionCard from "../components/auth/new_version";
 import UpdatingCard from "../components/auth/updating";
 
-export default function HomeScreen() {
+export default function AuthScreen() {
   const [showUpdateModal, setShowUpdateModal] = useState<boolean>(false);
   const [showUpdatingModal, setShowUpdatingModal] = useState<boolean>(false);
 

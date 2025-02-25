@@ -1,21 +1,10 @@
-import { createStaticNavigation } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import HomeScreen from "./screens/home";
-import DashboardScreen from "./screens/dashboard";
-
-const RootStack = createNativeStackNavigator({
-  initialRouteName: "Home",
-  screens: {
-    Home: HomeScreen,
-    Dashboard: DashboardScreen,
-  },
-  screenOptions: {
-    headerShown: false,
-  },
-});
-
-const Navigation = createStaticNavigation(RootStack);
+import { AuthProvider } from "./context/auth_context";
+import AppNavigator from "./navigation/app_navigator";
 
 export default function App() {
-  return <Navigation />;
+  return (
+    <AuthProvider>
+      <AppNavigator />
+    </AuthProvider>
+  );
 }

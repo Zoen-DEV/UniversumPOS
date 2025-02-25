@@ -1,11 +1,7 @@
-import { useNavigation } from "@react-navigation/native";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { View, StyleSheet, Image, Text } from "react-native";
 import * as Progress from "react-native-progress";
-import { RootStackParamList } from "../../utils/types/routes";
-import { StackNavigationProp } from "@react-navigation/stack";
-
-type NavigationProps = StackNavigationProp<RootStackParamList, "Dashboard">;
+import { useAuth } from "../../context/auth_context";
 
 interface Props {
   setShowUpdatingModal: Dispatch<SetStateAction<boolean>>;
@@ -16,8 +12,8 @@ export default function UpdatingCard({
   setShowUpdatingModal,
   isDashboard,
 }: Props) {
+  const auth = useAuth();
   const [progress, setProgress] = useState(0);
-  const navigation = useNavigation<NavigationProps>();
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -33,7 +29,7 @@ export default function UpdatingCard({
   useEffect(() => {
     if (progress >= 1) {
       setShowUpdatingModal(false);
-      navigation.navigate("Dashboard");
+      auth.login("user_token")
     }
   }, [progress]);
 

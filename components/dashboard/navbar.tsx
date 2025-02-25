@@ -1,7 +1,5 @@
 import { View, Text, TouchableOpacity, Image, StyleSheet } from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import { StackNavigationProp } from "@react-navigation/stack";
-import { RootStackParamList } from "../../utils/types/routes";
+import { useAuth } from "../../context/auth_context";
 const homeIcon = require("../../assets/icons/navbar/home.svg");
 const tableIcon = require("../../assets/icons/navbar/table.svg");
 const menuIcon = require("../../assets/icons/navbar/menu.svg");
@@ -9,10 +7,8 @@ const userIcon = require("../../assets/icons/navbar/user.svg");
 const reportIcon = require("../../assets/icons/navbar/report.svg");
 const settingsIcon = require("../../assets/icons/navbar/settings.svg");
 
-type NavigationProps = StackNavigationProp<RootStackParamList, "Home">;
-
 export default function Navbar() {
-  const navigation = useNavigation<NavigationProps>();
+  const auth = useAuth();
 
   const navList = [
     {
@@ -54,7 +50,7 @@ export default function Navbar() {
   };
 
   const handleLogOut = async () => {
-    navigation.navigate("Home");
+    auth.logout();
   };
 
   return (
