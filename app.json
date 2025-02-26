@@ -3,7 +3,7 @@
     "name": "UniversumPOS",
     "slug": "UniversumPOS",
     "version": "1.0.0",
-    "orientation": "portrait",
+    "orientation": "default",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
@@ -19,13 +19,27 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.zoen.UniversumPOS"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "updates": {
       "enabled": false
+    },
+    "plugins": [
+      [
+        "expo-secure-store",
+        {
+          "configureAndroidBackup": true
+        }
+      ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "afb89afe-50ed-4c09-8192-9deb48ae71b4"
+      }
     }
   }
 }

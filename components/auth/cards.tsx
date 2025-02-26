@@ -9,12 +9,12 @@ import {
 } from "react-native";
 
 interface Props {
-  showUpdateModal: boolean;
+  isBlur: boolean;
   setShowUpdateModal: Dispatch<SetStateAction<boolean>>;
 }
 
 export default function MainViewCards({
-  showUpdateModal,
+  isBlur,
   setShowUpdateModal,
 }: Props) {
   const { width } = useWindowDimensions();
@@ -25,7 +25,7 @@ export default function MainViewCards({
     >
       <TouchableOpacity
         style={
-          showUpdateModal ? { ...styles.card, ...styles.cardBlur } : styles.card
+          isBlur ? { ...styles.card, ...styles.cardBlur } : styles.card
         }
         onPress={() => setShowUpdateModal(true)}
       >
@@ -46,7 +46,7 @@ export default function MainViewCards({
 
       <TouchableOpacity
         style={
-          showUpdateModal ? { ...styles.card, ...styles.cardBlur } : styles.card
+          isBlur ? { ...styles.card, ...styles.cardBlur } : styles.card
         }
         onPress={() => console.log("navigate to login")}
       >
