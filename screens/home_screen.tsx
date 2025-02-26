@@ -41,7 +41,15 @@ export default function HomeScreen() {
       <View
         style={
           width >= 768
-            ? { ...styles.dashboardContainer, ...styles.dashboardLongContainer }
+            ? !showFullNavbar
+              ? {
+                  ...styles.dashboardContainer,
+                  ...styles.dashboardWithSmallNavbar,
+                }
+              : {
+                  ...styles.dashboardContainer,
+                  ...styles.dashboardLongContainer,
+                }
             : {
                 ...styles.dashboardContainer,
                 ...styles.dashboardSmallContainer,
@@ -189,6 +197,9 @@ const styles = StyleSheet.create({
   },
   dashboardLongContainer: {
     width: "80%",
+  },
+  dashboardWithSmallNavbar: {
+    width: "90%",
   },
   dashboardSmallContainer: {
     width: "100%",

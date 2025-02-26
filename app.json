@@ -19,7 +19,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.zoen.UniversumPOS"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -34,6 +35,11 @@
           "configureAndroidBackup": true
         }
       ]
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "afb89afe-50ed-4c09-8192-9deb48ae71b4"
+      }
+    }
   }
 }

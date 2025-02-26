@@ -123,7 +123,10 @@ export default function Navbar({
         }
         style={styles.closeNavbarBtn}
       >
-        <Image source={require("../../assets/icons/navbar/close.png")} />
+        <Image
+          source={require("../../assets/icons/navbar/close.png")}
+          style={!showFullNavbar ? styles.rotateIcon : undefined}
+        />
       </TouchableOpacity>
 
       <View style={styles.userInfoContainer}>
@@ -134,21 +137,45 @@ export default function Navbar({
           <Image source={require("../../assets/icons/utils/switch.png")} />
         </TouchableOpacity>
 
-        <View style={styles.userInfoContent}>
+        <View
+          style={
+            showFullNavbar
+              ? styles.userInfoContent
+              : styles.userInfoSmallContent
+          }
+        >
           <Text style={styles.userInfoText}>{userData.name}</Text>
           <Text style={styles.userInfoText}> • </Text>
           <Text style={styles.userInfoText}>{userData.role} UI</Text>
         </View>
 
-        <View style={styles.userInfoTimeContainer}>
+        <View
+          style={
+            showFullNavbar
+              ? styles.userInfoTimeContainer
+              : styles.userInfoTimeSmallContainer
+          }
+        >
           <Image source={require("../../assets/icons/utils/clock.png")} />
-          <Text style={styles.userInfoTime}>{userData.time}</Text>
+          {showFullNavbar && (
+            <Text style={styles.userInfoTime}>{userData.time}</Text>
+          )}
         </View>
       </View>
 
       <View style={styles.navbarFooter}>
-        <TouchableOpacity onPress={handleLogOut} style={styles.logoutBtn}>
-          <Text style={styles.logoutText}>Log out</Text>
+        <TouchableOpacity
+          onPress={handleLogOut}
+          style={showFullNavbar ? styles.logoutBtn : styles.logoutSmallBtn}
+        >
+          {showFullNavbar ? (
+            <Text style={styles.logoutText}>Log out</Text>
+          ) : (
+            <Image
+              source={require("../../assets/icons/utils/logout.png")}
+              style={styles.logoutIcon}
+            />
+          )}
         </TouchableOpacity>
       </View>
     </View>
@@ -224,6 +251,9 @@ const styles = StyleSheet.create({
     position: "relative",
     left: 40,
   },
+  rotateIcon: {
+    transform: "rotate(180deg)",
+  },
 
   // user info
   userInfoContainer: {
@@ -244,6 +274,9 @@ const styles = StyleSheet.create({
   userInfoContent: {
     flexDirection: "row",
   },
+  userInfoSmallContent: {
+    flexDirection: "column",
+  },
   userInfoText: {
     color: "#fff",
     fontSize: 12,
@@ -257,6 +290,16 @@ const styles = StyleSheet.create({
     gap: 8,
     backgroundColor: "#E94B24",
     width: 84,
+    borderRadius: 50,
+    padding: 6,
+  },
+  userInfoTimeSmallContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 8,
+    backgroundColor: "#E94B24",
+    width: 45,
     borderRadius: 50,
     padding: 6,
   },
@@ -282,8 +325,21 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     width: "90%",
   },
+  logoutSmallBtn: {
+    backgroundColor: "#0F69B3",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 12,
+    borderRadius: 12,
+    width: 45,
+  },
   logoutText: {
     color: "#fff",
     letterSpacing: 1,
+  },
+  logoutIcon: {
+    width: 25,
+    height: 25,
   },
 });
